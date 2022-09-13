@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // setting mem to 0
     memory_data = 0;
-
 }
 
 MainWindow::~MainWindow()

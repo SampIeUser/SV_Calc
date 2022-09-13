@@ -63,7 +63,7 @@ QString Calc_actions::evaluate(QString data)
         }
   }
 
-  // getting sqrt's
+  // getting roots
      i = expr_sqrt.globalMatch(data);
 
   while (i.hasNext())
@@ -99,14 +99,27 @@ QString Calc_actions::evaluate(QString data)
    }
    if (div_list.length() != 0)
    {
-       QString div_sol;
+       QString div_sol;       
        foreach (div_sol, div_list)
        {
            QStringList div;
-           div << div_sol.split('/');
+
+           div << div_sol.split('/');          
            double devide = div[0].toDouble()/div[1].toDouble();
-           QString div_sol_solved = QString::number(devide, 'f', 4);
-           data.replace(div_sol,div_sol_solved);
+           if (QString::number(devide) == "nan" || QString::number(devide) == "inf")
+           {
+                return "Zero devide$";
+           }
+           else
+           {
+               QString div_sol_solved;
+               if (devide==0)
+               {
+                div_sol_solved = "+";
+               }
+                div_sol_solved += QString::number(devide, 'f', 4);
+                data.replace(div_sol,div_sol_solved);
+            }
        }
    }
 
@@ -225,17 +238,19 @@ QMap<QString, QString> Calc_actions::sqrt(QStringList sqrts_unsolved)
     // stores the final solution as QMap ("was" "became")
     QMap<QString, QString> solved_map;
 
-    QStringList minus_cases = {"+-","--","/-","*-","^-","S-"};
-    QString operations = "+-/*^";
 
+    QString operations = "+-/*^";
+    qDebug() << sqrts_unsolved;
     QString str;
     foreach (str, sqrts_unsolved)
     {
-        QString sr = str; sr.resize(2);        
+        qDebug() << str;
+
+        QString sr = str; sr.resize(2);
         if (operations.contains(str[0]))
         {
             str.remove(0,1);
-        }
+        }        
         unsolved_prepared << str;
     }
     QString unsolved_str;
@@ -250,7 +265,7 @@ QMap<QString, QString> Calc_actions::sqrt(QStringList sqrts_unsolved)
     }
     if (Solved.contains("nan"))
     {
-        Error.insert("Error","Minus insude sqrt()$");
+        Error.insert("Error","Minus insude root$");
         return Error;
     }
     if (Solved.length() == unsolved_prepared.length())
