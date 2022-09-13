@@ -1,5 +1,5 @@
 # SV_Calc
-Calculator on C++
+💻Calculator on C++
 
 ## Table of contents
  + [1. Installation](#1_parag);
