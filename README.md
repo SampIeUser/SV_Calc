@@ -1,4 +1,4 @@
-# SV_Calc
+# Calc
 💻Calculator on C++
 
 ## Table of contents
